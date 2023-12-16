@@ -24,13 +24,19 @@ let persons = [
   },
 ];
 
+
+    let info = Object.keys(persons).length;
+    let pvm = new Date();
+    
+   
+
+
 // Use express.json() middleware for JSON parsing
 app.use(express.json());
 
-// GET route
-app.get("/api/persons", (req, res) => {
-  res.json(persons);
-});
+app.get("/api/info", (req, res) => {
+    res.send(`Phonebook has info for ${info} people \n${pvm}`);
+  });
 
 const PORT = 3002;
 app.listen(PORT, () => {
