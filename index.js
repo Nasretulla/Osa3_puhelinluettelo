@@ -1,4 +1,5 @@
-const http = require("http");
+const express = require("express");
+const app = express();
 
 let persons = [
   {
@@ -23,11 +24,15 @@ let persons = [
   },
 ];
 
-const app = http.createServer((request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(persons));
+// Use express.json() middleware for JSON parsing
+app.use(express.json());
+
+// GET route
+app.get("/api/persons", (req, res) => {
+  res.json(persons);
 });
 
-const PORT = 3001;
-app.listen(PORT);
-console.log(`Server running on port ${PORT}`);
+const PORT = 3002;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
