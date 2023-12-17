@@ -29,7 +29,17 @@ let persons = [
    
 
 
-app.get('/api/persons/:id', (request, response) => {
+
+
+// Use express.json() middleware for JSON parsing
+app.use(express.json());
+
+app.get("/info", (req, res) => {
+    res.send(`Phonebook has info for ${persons.length} people   \n${new Date()}`);
+  });
+
+
+  app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const personID = persons.find(personID => personID.id === id)
 
@@ -42,12 +52,13 @@ app.get('/api/persons/:id', (request, response) => {
 
 })
 
-// Use express.json() middleware for JSON parsing
-app.use(express.json());
 
-app.get("/info", (req, res) => {
-    res.send(`Phonebook has info for ${persons.length} people   \n${new Date()}`);
-  });
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(persons => persons.id !== id)
+
+    response.status(204).end()
+})
 
 const PORT = 3001;
 app.listen(PORT, () => {
