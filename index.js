@@ -25,20 +25,31 @@ let persons = [
 ];
 
 
-    let info = Object.keys(persons).length;
-    let pvm = new Date();
-    
+
    
 
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const personID = persons.find(personID => personID.id === id)
+
+    if(personID) {
+        response.json(personID)
+    } else {
+        response.status(404).end()
+        console.log("not found with this ID");
+    }
+
+})
 
 // Use express.json() middleware for JSON parsing
 app.use(express.json());
 
-app.get("/api/info", (req, res) => {
-    res.send(`Phonebook has info for ${info} people \n${pvm}`);
+app.get("/info", (req, res) => {
+    res.send(`Phonebook has info for ${persons.length} people   \n${new Date()}`);
   });
 
-const PORT = 3002;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
